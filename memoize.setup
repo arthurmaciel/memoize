@@ -1,0 +1,9 @@
+;; -*- Scheme -*-
+
+(compile -s -O2 memoize.scm -j memoize)
+(compile -s -O2 memoize.import.scm)
+
+(install-extension
+  'memoize
+  '("memoize.so" "memoize.import.so")
+  '((version "0.1")))

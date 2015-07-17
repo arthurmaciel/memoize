@@ -1,0 +1,87 @@
+[[tags: egg]]
+
+== memoize
+
+[[toc:]]
+
+=== Description
+
+Memoize is a CHICKEN Scheme egg that provides a procedure with the same name used for procedure [[https://en.wikipedia.org/wiki/Memoization|memoization]].
+
+=== Author
+
+[[/users/arthurmaciel|Arthur Maciel]]
+
+=== Requirements
+
+Requires [[srfi-69]] egg.
+
+=== Documentation
+
+<procedure>(memoize PROC)</procedure>
+Memoizes procedure {{PROC}}.
+
+==== Examples
+
+<enscript highlight="scheme">
+(use memoize)
+
+;; Factorial - Tail-call optimization version
+(define (fact x)
+  (let loop ((x x) (acc 1))
+    (if (= x 0)
+	acc
+	(loop (- x 1) (* x acc)))))
+
+(time (fact 10000000))
+; => 3.011s CPU time, 0.071s GC time (major), 16 mutations, 104/27101 GCs (major/minor)
+
+
+(define memo-fact (memoize fact))
+
+;; First call
+(time (memo-fact 10000000))
+; => 3.199s CPU time, 0.243s GC time (major), 22 mutations, 223/26982 GCs (major/minor)
+
+;; Second call on...
+(time (memo-fact 10000000))
+; => 0s CPU time, 10 mutations
+
+</enscript>
+
+=== Changelog
+
+* 0.1 Initial version
+
+=== License
+
+  Copyright (c) 2013, Arthur Maciel
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are
+  met:
+  
+  Redistributions of source code must retain the above copyright
+  notice, this list of conditions and the following disclaimer.
+  
+  Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the
+  documentation and/or other materials provided with the distribution.
+  
+  Neither the name of the author nor the names of its contributors may
+  be used to endorse or promote products derived from this software
+  without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+  COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+  OF THE POSSIBILITY OF SUCH DAMAGE.
