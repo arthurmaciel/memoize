@@ -48,15 +48,17 @@
  (define (memoize proc #!optional limit)
    (let ((cache (make-hash-table)))
      (lambda args
-       (let ((results (hash-table-ref/default cache args #f)))
-	 (cond (results (apply values results))
-	       (else
+       (let* ((no-result (gensym))
+	      (results (hash-table-ref/default cache args no-result)))
+	 (cond ((eq? results no-result)
 		(let ((results (call-with-values 
 				   (lambda () (apply proc args))
-				   list)))
+				 list)))
 		  ;; Avoid a huge cache by deleting random keys if limit is determined. 
 		  (and limit (>= (hash-table-size cache) limit) (delete-random-key! cache))
 		  (hash-table-set! cache args results)
-		  (apply values results))))))))
+		  (apply values results)))
+	       (else
+		(apply values results)))))))
 
  ) ;; End of module memoize
