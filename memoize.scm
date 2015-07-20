@@ -51,11 +51,11 @@
      (lambda args
        (let ((results (hash-table-ref/default cache args not-found)))
 	 (cond ((eq? results not-found)
-		;; Avoid a huge cache by deleting random keys if limit is determined. 
-		(and limit (>= (hash-table-size cache) limit) (delete-random-key! cache))
 		(let ((results (call-with-values 
 				   (lambda () (apply proc args))
 				 list)))
+		  ;; Avoid a huge cache by deleting random keys if limit is determined. 
+		  (and limit (>= (hash-table-size cache) limit) (delete-random-key! cache))
 		  (hash-table-set! cache args results)
 		  (apply values results)))
 	       (else
