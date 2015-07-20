@@ -53,7 +53,7 @@
 	 (cond ((eq? results not-found)
 		(let ((results (call-with-values 
 				   (lambda () (apply proc args))
-				 list)))
+				   list)))
 		  ;; Avoid a huge cache by deleting random keys if limit is determined. 
 		  (and limit (>= (hash-table-size cache) limit) (delete-random-key! cache))
 		  (hash-table-set! cache args results)
