@@ -38,6 +38,8 @@
  (import chicken scheme extras)
  (use srfi-69)
 
+ (define not-found (list 'not-found))
+
  (define (delete-random-key! cache)
    (let* ((keys (hash-table-keys cache))
 	  (len (length keys))
@@ -48,9 +50,8 @@
  (define (memoize proc #!optional limit)
    (let ((cache (make-hash-table)))
      (lambda args
-       (let* ((no-result (gensym))
-	      (results (hash-table-ref/default cache args no-result)))
-	 (cond ((eq? results no-result)
+       (let ((results (hash-table-ref/default cache args not-found)))
+	 (cond ((eq? results not-found)
 		(let ((results (call-with-values 
 				   (lambda () (apply proc args))
 				 list)))
