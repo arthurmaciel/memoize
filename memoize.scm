@@ -35,19 +35,28 @@
 (module memoize
  (memoize)
 
- (import chicken scheme)
+ (import chicken scheme extras)
  (use srfi-69)
 
- (define (memoize proc)
+ (define (delete-random-key! cache)
+   (let* ((keys (hash-table-keys cache))
+	  (len (length keys))
+	  (random-key (random len)))
+     (hash-table-delete! cache
+			 (list-ref keys random-key))))
+
+ (define (memoize proc #!optional limit)
    (let ((cache (make-hash-table)))
      (lambda args
        (let ((results (hash-table-ref/default cache args #f)))
-	 (if results
-	     (apply values results)
-	     (let ((results (call-with-values (lambda ()
-						(apply proc args))
-			      list)))
-	       (hash-table-set! cache args results)
-	       (apply values results)))))))
+	 (cond (results (apply values results))
+	       (else
+		(let ((results (call-with-values 
+				   (lambda () (apply proc args))
+				   list)))
+		  ;; Avoid a huge cache by deleting random keys if limit is determined. 
+		  (and limit (>= (hash-table-size cache) limit) (delete-random-key! cache))
+		  (hash-table-set! cache args results)
+		  (apply values results))))))))
 
  ) ;; End of module memoize

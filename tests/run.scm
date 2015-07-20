@@ -7,7 +7,12 @@
 	(loop (- x 1) (* x acc)))))
 
 (define memo-fact (memoize fact))
+(test "Memoizatoin WITHOUT limit" (fact 322) (memo-fact 322))
 
-(test (fact 322) (memo-fact 322))
+(define memo-fact (memoize fact 3))
+(memo-fact 320) 
+(memo-fact 321) 
+(memo-fact 322) 
+(test "Memoizatoin WITH limit" (fact 323) (memo-fact 323))
 
 (test-exit)

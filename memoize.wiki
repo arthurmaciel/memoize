@@ -6,7 +6,7 @@
 
 === Description
 
-Memoize is a CHICKEN Scheme egg that provides a procedure with the same name used for procedure [[https://en.wikipedia.org/wiki/Memoization|memoization]].
+Memoize is a CHICKEN Scheme egg that provides procedure [[https://en.wikipedia.org/wiki/Memoization|memoization]].
 
 === Author
 
@@ -18,11 +18,10 @@ Requires [[srfi-69]] egg.
 
 === Documentation
 
-<procedure>(memoize PROC)</procedure>
-Memoizes procedure {{PROC}}.
+<procedure>(memoize PROC #!optional LIMIT)</procedure>
+Memoizes procedure {{PROC}}. {{LIMIT}} is an integer optionally set to avoid excessive memory usage.
 
 ==== Examples
-
 <enscript highlight="scheme">
 (use memoize)
 
