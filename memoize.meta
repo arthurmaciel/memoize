@@ -4,5 +4,4 @@
  (author "Arthur Maciel")
  (category misc)
  (license "BSD")
- (depends srfi-69)
  (test-depends test))
