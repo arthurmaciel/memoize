@@ -1,0 +1,10 @@
+;; -*- Scheme -*-
+
+((synopsis "Procedures memoization") 
+ (author "Arthur Maciel")
+ (category misc)
+ (version "0.1")
+ (license "BSD")
+ (dependencies srfi-69)
+ (test-dependencies test)
+ (components (extension memoize)))

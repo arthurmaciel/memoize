@@ -1,4 +1,10 @@
-(use test memoize)
+
+(cond-expand
+ (chicken-4
+  (use test memoize))
+ (chicken-5
+  (import test)
+  (import memoize)))
 
 (define (fact x)
   (let loop ((x x) (acc 1))

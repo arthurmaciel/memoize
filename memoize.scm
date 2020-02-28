@@ -35,14 +35,22 @@
 (module memoize
  (memoize)
 
- (import chicken scheme extras)
- (use srfi-69)
+ (import scheme)
+ (cond-expand
+  (chicken-4
+   (import chicken extras)
+   (use srfi-69)
+   (define pseudo-random-integer random))
+  (chicken-5
+   (import (chicken base) (chicken module)
+           (chicken random)
+           (srfi 69))))
 
  (define not-found (list 'not-found))
 
  (define (delete-random-key! cache)
    (let* ((keys (hash-table-keys cache))
-	  (random-key (random (hash-table-size cache))))
+	  (random-key (pseudo-random-integer (hash-table-size cache))))
      (hash-table-delete! cache
 			 (list-ref keys random-key))))
 
