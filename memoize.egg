@@ -7,6 +7,4 @@
  (license "BSD")
  (dependencies srfi-69)
  (test-dependencies test)
- (components (extension memoize
-                        (source-dependencies
-                         "memoize.scm"))))
+ (components (extension memoize)))
