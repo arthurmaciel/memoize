@@ -35,8 +35,16 @@
 (module memoize
  (memoize)
 
- (import chicken scheme extras)
- (use srfi-69)
+ (import scheme)
+ (cond-expand
+  (chicken-4
+   (import chicken extras)
+   (use srfi-69))
+  (chicken-5
+   (import (chicken base) (chicken module)
+           (chicken random)
+           (srfi 69))
+   (define random pseudo-random-integer)))
 
  (define not-found (list 'not-found))
 
