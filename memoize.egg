@@ -3,7 +3,7 @@
 ((synopsis "Procedures memoization") 
  (author "Arthur Maciel")
  (category misc)
- (version "0.1")
+ (version "0.3")
  (license "BSD")
  (dependencies srfi-69)
  (test-dependencies test)
